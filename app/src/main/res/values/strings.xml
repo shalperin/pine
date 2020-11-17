@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Working Title</string>
+
+    <string name="success_short_label">6pm Kitch. Closed</string>
+    <string name="failure_short_label">Ate Late</string>
+    <string name="fasted_short_label">Fast Until Dinner</string>
+
+    <string name="success_regular_label">Stopped eating @ 6pm</string>
+    <string name="failure_regular_label">Ate after 6pm</string>
+    <string name="fasted_regular_label">Fasted until dinner</string>
+    <string name="nodata_regular_label">No data</string>
+
+    <string name="show_hide_fab_tooltip">Log</string>
+
+    <string name="fasted_feedback">Fasted today</string>
+    <string name="success_feedback">Good job! Stopped eating early today!</string>
+    <string name="failure_feedback">Ate late? Begin again tomorrow!</string>
+
+    <string name="last_7_days"><u>Last 7 days</u></string>
+    <string name="last_30_days"><u>Last 30 days</u></string>
+
+    <string name="january">Jan</string>
+    <string name="february">Feb</string>
+    <string name="march">Mar</string>
+    <string name="april">Apr</string>
+    <string name="may">May</string>
+    <string name="june">Jun</string>
+    <string name="july">Jul</string>
+    <string name="august">Aug</string>
+    <string name="september">Sep</string>
+    <string name="october">Oct</string>
+    <string name="november">Nov</string>
+    <string name="december">Dec</string>
+
+
+
+</resources>

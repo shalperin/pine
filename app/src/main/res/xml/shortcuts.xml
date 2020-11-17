@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="sucess"
+        android:enabled="true"
+        android:icon="@drawable/placeholder_clipart"
+        android:shortcutShortLabel="@string/success_short_label"
+        android:shortcutLongLabel="@string/success_regular_label">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.samhalperin.android.pine"
+            android:targetClass="com.samhalperin.android.pine.MainActivity" >
+            <extra android:name="shortcut" android:value="SUCCESS" />
+        </intent>
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list determines what the user sees when
+             they launch this shortcut. -->
+        <categories android:name="android.shortcut.success" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="failure"
+        android:enabled="true"
+        android:icon="@drawable/placeholder_clipart"
+        android:shortcutShortLabel="@string/failure_short_label"
+        android:shortcutLongLabel="@string/failure_regular_label">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.samhalperin.android.pine"
+            android:targetClass="com.samhalperin.android.pine.MainActivity" >
+            <extra android:name="shortcut" android:value="FAILURE" />
+        </intent>
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list determines what the user sees when
+             they launch this shortcut. -->
+        <categories android:name="android.shortcut.success" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="fasted"
+        android:enabled="true"
+        android:icon="@drawable/placeholder_clipart"
+        android:shortcutShortLabel="@string/fasted_short_label"
+        android:shortcutLongLabel="@string/fasted_regular_label">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.samhalperin.android.pine"
+            android:targetClass="com.samhalperin.android.pine.MainActivity" >
+            <extra android:name="shortcut" android:value="FASTED" />
+        </intent>
+        <!-- If your shortcut is associated  with multiple intents, include them
+             here. The last intent in the list determines what the user sees when
+             they launch this shortcut. -->
+        <categories android:name="android.shortcut.success" />
+    </shortcut>
+
+    <!-- Specify more shortcuts here. -->
+</shortcuts>
+

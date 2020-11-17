@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <color name="failure">#FAA3A3</color>
+    <color name="fasted">#AD9FC5</color>
+    <color name="nodata">#eeeeee</color>
+    <color name="success">#BBDDBB</color>
+
+    <color name="failure_dark">#EA9999</color>
+    <color name="fasted_dark">#9F93B5</color>
+    <color name="nodata_dark">#eeeeee</color>
+    <color name="success_dark">#ACCCAC</color>
+
+    <color name="failure_bright">#F34A4A</color>
+    <color name="fasted_bright">#8262BC</color>
+    <color name="nodata_bright">#eeeeee</color>
+    <color name="success_bright">#63C863</color>
+
+    <color name="failure_transp">#80EA9999</color>
+    <color name="fasted_transp">#809F93B5</color>
+    <color name="nodata_transp">#80eeeeee</color>
+    <color name="success_transp">#80ACCCAC</color>
+
+    <color name="text1">#555555</color>
+
+    <color name="statsBg">#ffffff</color>
+    <color name="marker_stroke_color">#cccccc</color>
+    <color name="today_label">#F44336</color>
+</resources>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+
+    >
+
+    <TextView
+        android:id="@+id/last_7_label"
+        style="@style/StatsHeaderText"
+        android:layout_width="@dimen/statsLabelWidth"
+        android:layout_height="wrap_content"
+        android:text="@string/last_7_days"
+        android:textColor="@color/text1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:viewBindingIgnore="true" />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pie_chart"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toRightOf="@id/last_7_success_percent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/last_7_label" />
+
+    <ImageView
+        android:id="@+id/pie_chart_placeholder"
+        style="@style/StatsPie"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/pie_placeholder"
+        app:layout_constraintLeft_toRightOf="@id/last_7_success_percent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/last_7_label"
+        tools:viewBindingIgnore="true"
+        />
+
+    <!--           Stopped eating at 6pm: xx-->
+    <TextView
+        android:id="@+id/last_7_success_label"
+        android:layout_height="wrap_content"
+        android:layout_width="@dimen/statsLabelWidth"
+        android:text="Stopped eating at 6pm:"
+        app:layout_constraintTop_toBottomOf="@id/last_7_label"
+        app:layout_constraintLeft_toLeftOf="parent"
+        style="@style/StatsLabelText"
+        tools:viewBindingIgnore="true"
+        android:textColor="@color/success"
+        />
+
+    <TextView
+        android:id="@+id/last_7_success_count"
+        style="@style/StatsCountText"
+        android:layout_width="@dimen/statsCountTextWidth"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/text1"
+        app:layout_constraintLeft_toRightOf="@id/last_7_success_label"
+        app:layout_constraintTop_toTopOf="@id/last_7_success_label"
+        tools:text="xx" />
+
+    <TextView
+        android:id="@+id/last_7_success_percent"
+        style="@style/StatsPercentageText"
+        android:layout_width="@dimen/statsCountTextWidth"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text1"
+        app:layout_constraintLeft_toRightOf="@id/last_7_success_count"
+        app:layout_constraintTop_toTopOf="@id/last_7_success_count"
+        tools:text="xx%" />
+
+
+    <!--           Fasted until dinner: xx-->
+    <TextView
+        android:id="@+id/last_7_fasted_label"
+        android:layout_height="wrap_content"
+        android:layout_width="@dimen/statsLabelWidth"
+        android:text="Fasted until dinner:"
+        app:layout_constraintTop_toBottomOf="@id/last_7_success_label"
+        app:layout_constraintLeft_toLeftOf="parent"
+        style="@style/StatsLabelText"
+        tools:viewBindingIgnore="true"
+        android:textColor="@color/fasted"
+        />
+
+    <TextView
+        android:id="@+id/last_7_fasted_count"
+        style="@style/StatsCountText"
+        android:layout_width="@dimen/statsCountTextWidth"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/text1"
+        app:layout_constraintLeft_toRightOf="@id/last_7_fasted_label"
+        app:layout_constraintTop_toTopOf="@id/last_7_fasted_label"
+        tools:text="xx" />
+
+    <TextView
+        android:id="@+id/last_7_fasted_percent"
+        style="@style/StatsPercentageText"
+        android:layout_width="@dimen/statsCountTextWidth"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text1"
+        app:layout_constraintLeft_toRightOf="@id/last_7_fasted_count"
+        app:layout_constraintTop_toTopOf="@id/last_7_fasted_count"
+        tools:text="xx%" />
+
+
+    <!--           Ate after 6pm: xx-->
+    <TextView
+        android:id="@+id/last_7_failure_label"
+        android:layout_height="wrap_content"
+        android:layout_width="@dimen/statsLabelWidth"
+        android:text="Ate after 6pm:"
+        app:layout_constraintTop_toBottomOf="@id/last_7_fasted_label"
+        app:layout_constraintLeft_toLeftOf="parent"
+        style="@style/StatsLabelText"
+        tools:viewBindingIgnore="true"
+        android:textColor="@color/failure"
+        />
+
+    <TextView
+        android:id="@+id/last_7_failure_count"
+        style="@style/StatsCountText"
+        android:layout_width="@dimen/statsCountTextWidth"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/text1"
+        app:layout_constraintLeft_toRightOf="@id/last_7_failure_label"
+        app:layout_constraintTop_toTopOf="@id/last_7_failure_label"
+        tools:text="xx" />
+
+    <TextView
+        android:id="@+id/last_7_failure_percent"
+        style="@style/StatsPercentageText"
+        android:layout_width="@dimen/statsCountTextWidth"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text1"
+        app:layout_constraintLeft_toRightOf="@id/last_7_failure_count"
+        app:layout_constraintTop_toTopOf="@id/last_7_failure_count"
+        tools:text="xx%" />
+</androidx.constraintlayout.widget.ConstraintLayout>

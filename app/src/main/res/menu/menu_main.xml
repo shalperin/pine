@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.samhalperin.android.pine.MainActivity">
+    <item
+        android:id="@+id/change_yesterday"
+        android:orderInCategory="100"
+        android:title="Change yesterday's entry"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/populate_database"
+        android:orderInCategory="100"
+        android:title="Populate the database with some example data"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/delete_database"
+        android:orderInCategory="100"
+        android:title="Delete data"
+        app:showAsAction="never" />
+
+
+</menu>

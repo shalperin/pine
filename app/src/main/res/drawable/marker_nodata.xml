@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:top="@dimen/marker_easing"
+        android:right="@dimen/marker_easing"
+        android:bottom="@dimen/marker_easing"
+        android:left="@dimen/marker_easing">
+        <shape android:shape="oval">
+
+        </shape>
+    </item>
+
+
+
+</layer-list>
