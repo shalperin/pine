@@ -1,4 +1,4 @@
-package com.samhalperin.android.pine
+package com.samhalperin.android.pine.entities
 
 import java.lang.RuntimeException
 

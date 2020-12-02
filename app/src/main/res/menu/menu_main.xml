@@ -1,12 +1,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.samhalperin.android.pine.MainActivity">
+    tools:context="com.samhalperin.android.pine.activities.MainActivity">
+
     <item
-        android:id="@+id/change_yesterday"
+        android:id="@+id/timer"
         android:orderInCategory="100"
-        android:title="Change yesterday's entry"
-        app:showAsAction="never" />
+        android:title="Fasting Timer"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_timer"
+        />
+    <item
+        android:id="@+id/change_previous"
+        android:orderInCategory="200"
+        android:title="Yesterday"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/the_science"
+        android:orderInCategory="100"
+        android:title="The Science"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_info"
+        />
+
     <item
         android:id="@+id/populate_database"
         android:orderInCategory="100"

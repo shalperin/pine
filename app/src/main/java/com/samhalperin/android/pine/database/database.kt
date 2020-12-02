@@ -1,10 +1,12 @@
-package com.samhalperin.android.pine
+package com.samhalperin.android.pine.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
-import java.util.*
+import com.samhalperin.android.pine.entities.Behavior
+import com.samhalperin.android.pine.entities.Day
+import com.samhalperin.android.pine.entities.Timer
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Dao
 interface DayDao {
@@ -25,21 +27,24 @@ interface DayDao {
 
     @Query("SELECT * from day ORDER BY date DESC LIMIT 1")
     fun today() : LiveData<Day>
+
+}
+
+@Dao
+interface TimerDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(timer: Timer)
+
+    @Query("DELETE from timer")
+    suspend fun clearTimers()
+
+    @Query("SELECT * from timer LIMIT 1")
+    fun currentTimer(): LiveData<Timer>
 }
 
 class Converters {
     @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return value?.let { Date(it) }
-    }
-
-    @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
-    }
-
-    @TypeConverter
-    fun behaviorToString(behavior:Behavior?): String {
+    fun behaviorToString(behavior: Behavior?): String {
         return when(behavior) {
             Behavior.SUCCESS -> Behavior.SUCCESS.toString()
             Behavior.FAILURE -> Behavior.FAILURE.toString()
@@ -51,7 +56,7 @@ class Converters {
     }
 
     @TypeConverter
-    fun behaviorFromString(srep: String) : Behavior{
+    fun behaviorFromString(srep: String) : Behavior {
         return when (srep) {
              Behavior.SUCCESS.toString() -> Behavior.SUCCESS
             Behavior.FAILURE.toString() -> Behavior.FAILURE
@@ -59,26 +64,33 @@ class Converters {
             else -> throw RuntimeException("There shouldn't be any other behavior types in the database.")
         }
     }
+
+    @TypeConverter
+    fun localDateToString(l: LocalDate) : String {
+        return l.toString()
+    }
+
+    @TypeConverter
+    fun  stringToLocalDate(isoString: String) : LocalDate {
+        return LocalDate.parse(isoString)
+    }
+
+    @TypeConverter
+    fun localDateTimeToString(l: LocalDateTime) : String {
+        return l.toString()
+    }
+
+    @TypeConverter
+    fun stringToLocalDateTime(srep: String): LocalDateTime {
+        return LocalDateTime.parse(srep)
+    }
 }
 
-@Database(entities = [Day::class], version = 2, exportSchema = false)  // TODO get schema export to work
+@Database(entities = [Day::class, Timer::class], version = 1, exportSchema = false)  // TODO get schema export to work
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun dayDao(): DayDao
-}
-
-val MIGRATION_1_2 = object : Migration(1, 2) {
-    override fun migrate(database: SupportSQLiteDatabase) {
-        database.execSQL(
-            "update day set behavior = 'SUCCESS' where behavior = 'success'"
-        )
-        database.execSQL(
-            "update day set behavior = 'FAILURE' where behavior = 'failure'"
-        )
-        database.execSQL(
-            "update day set behavior = 'FASTED' where behavior = 'fasted'"
-        )
-    }
+    abstract fun timerDao(): TimerDao
 }
 
 

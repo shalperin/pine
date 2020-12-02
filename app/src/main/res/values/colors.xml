@@ -27,6 +27,9 @@
     <color name="text1">#555555</color>
 
     <color name="statsBg">#ffffff</color>
-    <color name="marker_stroke_color">#cccccc</color>
+    <color name="marker_stroke_color">#FFE500</color>
     <color name="today_label">#F44336</color>
+
+    <color  name="tab_active">#ffffff</color>
+    <color  name="tab">#bbbbbb</color>
 </resources>

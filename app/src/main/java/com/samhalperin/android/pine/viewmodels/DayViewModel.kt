@@ -1,17 +1,25 @@
-package com.samhalperin.android.pine
+package com.samhalperin.android.pine.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.samhalperin.android.pine.database.DayRepositoryRoomImpl
+import com.samhalperin.android.pine.entities.*
 import kotlinx.coroutines.launch
-import java.lang.RuntimeException
-import java.util.*
 
 class DayViewModel(application: Application) : AndroidViewModel(application) {
 
-    val repo = DayRepository(application)
+    private val loadTrigger = MutableLiveData(Unit)
+
+    fun refresh() {
+        loadTrigger.value = Unit
+    }
+
+    private lateinit var repo: DayRepositoryRoomImpl
+
+    init {
+        repo = DayRepositoryRoomImpl(application)
+    }
+
 
     fun logToday(behavior: Behavior) {
         viewModelScope.launch {
@@ -19,7 +27,7 @@ class DayViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun logYesterday(behavior:Behavior) {
+    fun logYesterday(behavior: Behavior) {
         viewModelScope.launch {
             repo.markYesterday(behavior)
         }
@@ -31,16 +39,17 @@ class DayViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    val all = Transformations.map(repo.getAll(), { sparseList ->
-        sparseList
-            .endOnToday()
-            .startOnFirstOfMonth()
-            .addLastDayOfLastMonth()
-            .makeDense()
+    val all = Transformations.switchMap(loadTrigger, {
+        Transformations.map(repo.getAll(), { sparseList ->
+            sparseList
+                .endOnToday()
+                .startOnFirstOfMonth()
+                .makeDense()
+        })
     })
 
 
-    fun deleteDatabase() {
+        fun deleteDatabase() {
         viewModelScope.launch {
             repo.deleteDatabase()
         }
@@ -70,6 +79,8 @@ class DayViewModel(application: Application) : AndroidViewModel(application) {
         return repo.today()
     }
 
+    
+
 
 }
 
@@ -77,4 +88,3 @@ class DayViewModel(application: Application) : AndroidViewModel(application) {
 
 
 
-//TODO: I would really like Behavior not to be a string.

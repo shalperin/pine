@@ -1,8 +1,12 @@
 package com.samhalperin.android.pine
 
+import com.samhalperin.android.pine.entities.Behavior
+import com.samhalperin.android.pine.entities.Day
+import com.samhalperin.android.pine.entities.addLastDayOfLastMonth
+import com.samhalperin.android.pine.entities.makeDense
 import org.junit.Test
 import org.junit.Assert.*
-import java.util.*
+import java.time.LocalDate
 
 class DateMath {
 
@@ -11,22 +15,11 @@ class DateMath {
     be tested.  This isn't great, but it works as long as it doesn't confuse maintainers.
      */
 
-    @Test
-    fun testDateNormalization() {
-        //I don't even want to think about international travelers.
-        val d1 = Date()
-        val d1b = d1
-        Thread.sleep(1000)
-        val d2 = Date()
-        assertEquals(d1, d1b)
-        assertNotEquals(d1, d2)
-        assertEquals(d1.normalize(), d2.normalize())
-    }
 
     // one element list
     @Test
     fun testMakeDense1() {
-        val startDate = Date().normalize()
+        val startDate = LocalDate.now()
         val sparse = listOf(
             Day(startDate, Behavior.FAILURE)
         )
@@ -37,10 +30,10 @@ class DateMath {
     // two adjacent dates
     @Test
     fun testMakeDense2() {
-        val startDate = Date().normalize()
+        val startDate = LocalDate.now()
         val sparse = listOf(
             Day(startDate, Behavior.FAILURE),
-            Day.Builder(startDate, Behavior.FAILURE).add(1).build()
+            Day(startDate.plusDays(1), Behavior.FAILURE)
         )
         val dense = sparse.makeDense()
         assertEquals(sparse, dense)
@@ -49,16 +42,16 @@ class DateMath {
     //2 dates, skipping a day
     @Test
     fun testMakeDense3() {
-        val startDate = Date().normalize()
+        val startDate = LocalDate.now()
         val sparse = listOf(
             Day(startDate, Behavior.FAILURE),
-            Day.Builder(startDate, Behavior.SUCCESS).add(2).build()
+            Day(startDate.plusDays(2), Behavior.SUCCESS)
         )
         val dense = sparse.makeDense()
         val answer = listOf(
             Day(startDate, Behavior.FAILURE),
-            Day.Builder(startDate, Behavior.NO_DATA).add(1).build(),
-            Day.Builder(startDate, Behavior.SUCCESS).add(2).build()
+            Day(startDate.plusDays(1), Behavior.NO_DATA),
+            Day(startDate.plusDays(2), Behavior.SUCCESS)
         )
         assertEquals(dense, answer)
     }
@@ -66,28 +59,27 @@ class DateMath {
     //more dates
     @Test
     fun testMakeDense4() {
-        val startDate = Date().normalize()
+        val startDate = LocalDate.now()
         val sparse = listOf(
             Day(startDate, Behavior.FAILURE),
-            Day.Builder(startDate, Behavior.SUCCESS).add(2).build(),
-            Day.Builder(startDate, Behavior.SUCCESS).add(4).build()
+            Day(startDate.plusDays(2), Behavior.SUCCESS),
+            Day(startDate.plusDays(4), Behavior.SUCCESS)
         )
         val dense = sparse.makeDense()
         val expected = listOf(
             Day(startDate, Behavior.FAILURE),
-            Day.Builder(startDate, Behavior.NO_DATA).add(1).build(),
-            Day.Builder(startDate, Behavior.SUCCESS).add(2).build(),
-            Day.Builder(startDate, Behavior.NO_DATA).add(3).build(),
-            Day.Builder(startDate, Behavior.SUCCESS).add(4).build()
+            Day(startDate.plusDays(1), Behavior.NO_DATA),
+            Day(startDate.plusDays(2), Behavior.SUCCESS),
+            Day(startDate.plusDays(3), Behavior.NO_DATA),
+            Day(startDate.plusDays(4), Behavior.SUCCESS)
         )
         assertEquals(expected, dense)
     }
 
     @Test
     fun checkLastDay() {
-
-        val c = GregorianCalendar(2020, Calendar.MARCH,1)
-        var l = listOf(Day.onDate(c))
+        val c = LocalDate.parse("2020-03-01")
+        var l = listOf(Day(c, Behavior.NO_DATA ))
         l = l.addLastDayOfLastMonth().makeDense()
         assertEquals(31, l.size)
     }
@@ -96,26 +88,24 @@ class DateMath {
     @Test
     fun checkLastDayFeb() {
 
-        val c = GregorianCalendar(1999, Calendar.FEBRUARY,1)
-        var l = listOf(Day.onDate(c))
+        val c = LocalDate.parse("1999-02-01")
+        var l = listOf(Day(c, Behavior.NO_DATA))
         l = l.addLastDayOfLastMonth().makeDense()
         assertEquals(28, l.size)
     }
 
     @Test
     fun checkLastDayLeap1() {
-
-        val c = GregorianCalendar(2000, Calendar.FEBRUARY,1)
-        var l = listOf(Day.onDate(c))
+        val c = LocalDate.parse("2000-02-01")
+        var l = listOf(Day(c, Behavior.NO_DATA))
         l = l.addLastDayOfLastMonth().makeDense()
         assertEquals(29, l.size)
     }
 
     @Test
     fun checkLastDayLeap2() {
-
-        val c = GregorianCalendar(2020, Calendar.FEBRUARY,1)
-        var l = listOf(Day.onDate(c))
+        val c = LocalDate.parse("2020-02-01")
+        var l = listOf(Day(c, Behavior.NO_DATA))
         l = l.addLastDayOfLastMonth().makeDense()
         assertEquals(29, l.size)
     }

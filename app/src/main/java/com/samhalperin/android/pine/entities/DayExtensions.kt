@@ -1,8 +1,8 @@
-package com.samhalperin.android.pine
+package com.samhalperin.android.pine.entities
 
-import com.samhalperin.android.pine.Day.Companion.onDate
 import java.lang.RuntimeException
-import java.util.*
+import java.time.DayOfWeek
+import java.time.LocalDate
 
 
 /**
@@ -56,8 +56,9 @@ fun List<Day>.separateMonthsWithSpacers(): List<Day> {
             retval.add(day)
         } else if (day.isFirstOfMonth()) {
             for (i in 0..6) {
-                retval.add(Day(Date(), Behavior.SPACER))
-
+                //Not sure about now() here...  Spacers dates get ignored
+                // if you call these fns in the right order. ie last.
+                retval.add(Day(LocalDate.now(), Behavior.SPACER))
             }
             retval.add(day)
         } else {
@@ -73,23 +74,21 @@ fun List<Day>.separateMonthsWithSpacers(): List<Day> {
  * Padded cells will have Behavior.NO_DATA
  * @param day e.g: Calendar.MONDAY, Calendar.TUESDAY...etc
  */
-fun List<Day>.startOnDotw(day:Int): List<Day> {
+fun List<Day>.startOnDotw(day:DayOfWeek): List<Day> {
     var retval = this
 
     if (isEmpty()) {
         throw RuntimeException("Should have called endOnToday on this list first.")
     }
 
-    val c = Calendar.getInstance()
-    c.time = first().date
+    var d = first().date ?: throw RuntimeException("Spacer")
 
-    while (c.get(Calendar.DAY_OF_WEEK) != day) {
-        c.add(Calendar.DATE, -1)
-        retval = listOf(Day.Builder(c.time, Behavior.NO_DATA).build()) + retval
+    while (d.dayOfWeek != day) {
+        d = d.minusDays(1L)
+        retval = listOf(Day(d, Behavior.NO_DATA)) + retval
     }
 
     return retval
-
 }
 
 
@@ -97,12 +96,8 @@ fun List<Day>.startOnFirstOfMonth(): List<Day> {
     if (isEmpty()) {
         throw RuntimeException("Should have called endOnToday on this list first.")
     }
-    val c = Calendar.getInstance()
-    c.time = first().date
-    c.set(Calendar.DAY_OF_MONTH, 1)
-    val d0 = Day.onDate(c.time)
-
-    return listOf(d0) + this
+    var d = first().date?.withDayOfMonth(1) ?: throw RuntimeException("Spacer")
+    return listOf(Day(d, Behavior.NO_DATA)) + this
 
 }
 
@@ -113,24 +108,21 @@ fun List<Day>.startOnFirstOfMonth(): List<Day> {
 fun List<Day>.makeDense(): List<Day> {
     if (size == 0) {return this}
     val retval = mutableListOf<Day>()
-    val c = Calendar.getInstance()
-    val startDate = first().date
+    var d = first().date ?: throw RuntimeException("Spacer")
     val endDate = last().date
-    c.time = startDate
     val m = map {it.date to it}.toMap()
 
-    while (c.time <= endDate) {
-        val newDate = m.get(c.time) ?: Day.Builder(c.time, Behavior.NO_DATA).build()
+    while (d <= endDate) {
+        val newDate = m.get(d) ?: Day(d, Behavior.NO_DATA)
         retval.add(newDate)
-        c.add(Calendar.DATE, 1)
+        d = d.plusDays(1)
     }
     return retval
 }
 
 fun List<Day>.addLastDayOfLastMonth(): List<Day> {
     if (size == 0) {return this}
-    val c = Calendar.getInstance()
-    c.time = last().date
-    c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH))
-    return this + Day.onDate(c)
+    val last = last().date ?: throw RuntimeException("Spacer")
+    val d = last.withDayOfMonth(last.lengthOfMonth())
+    return this + Day(d, Behavior.NO_DATA)
 }

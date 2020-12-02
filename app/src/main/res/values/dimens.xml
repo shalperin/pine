@@ -2,7 +2,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="statsCountTextWidth">32dp</dimen>
     <dimen name="statsLabelWidth">160dp</dimen>
-    <dimen name="marker_stroke_width">2dp</dimen>
+    <dimen name="marker_stroke_width">3dp</dimen>
     <dimen name="marker_easing">10dp</dimen>
     <dimen name="marker_shift_down">8dp</dimen>
 </resources>

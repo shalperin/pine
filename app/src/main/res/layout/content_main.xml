@@ -85,12 +85,12 @@
 
             <include
                 android:id="@+id/last7day_stats"
-                layout="@layout/include_content_main_last_7_stats"
+                layout="@layout/include_fragment_calendar_last_7_stats"
                 />
 
             <include
                 android:id="@+id/last30day_stats"
-                layout="@layout/include_content_main_last_30_stats"
+                layout="@layout/include_fragment_calendar_last_30_stats"
                 />
         </LinearLayout>
 

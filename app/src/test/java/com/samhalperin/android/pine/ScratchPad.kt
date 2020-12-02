@@ -1,8 +1,8 @@
 package com.samhalperin.android.pine
 
+import com.samhalperin.android.pine.entities.Behavior
 import org.junit.Test
 import org.junit.Assert.*
-import java.util.*
 
 class ScratchPad {
 

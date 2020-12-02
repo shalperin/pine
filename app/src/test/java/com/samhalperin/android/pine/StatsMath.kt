@@ -1,8 +1,13 @@
 package com.samhalperin.android.pine
 
+import com.samhalperin.android.pine.entities.Behavior
+import com.samhalperin.android.pine.entities.Day
+import com.samhalperin.android.pine.entities.behaviorCount
+import com.samhalperin.android.pine.entities.behaviorPercent
+import com.samhalperin.android.pine.entities.percent
 import org.junit.Test
 import org.junit.Assert.*
-import java.util.*
+import java.time.LocalDate
 
 class StatsMath {
 
@@ -25,8 +30,8 @@ class StatsMath {
     @Test
     fun testCountAndPercentageFromDayList() {
         val a = listOf(
-            Day(Date(), Behavior.SUCCESS),
-            Day(Date(), Behavior.FAILURE)
+            Day(LocalDate.now(), Behavior.SUCCESS),
+            Day(LocalDate.now(), Behavior.FAILURE)
         )
         assertEquals(15, a.behaviorPercent(7, Behavior.SUCCESS))
         assertEquals(1, a.behaviorCount(7, Behavior.SUCCESS))
@@ -35,13 +40,13 @@ class StatsMath {
     @Test
     fun testCountAndPercentageFromDayList2() {
         val a = listOf(
-            Day(Date(), Behavior.SUCCESS),  //1
-            Day(Date(), Behavior.SUCCESS),  //2
-            Day(Date(), Behavior.FAILURE),
-            Day(Date(), Behavior.FAILURE),  //...
-            Day(Date(), Behavior.NO_DATA),
-            Day(Date(), Behavior.FAILURE),
-            Day(Date(), Behavior.FAILURE),  //7
+            Day(LocalDate.now(), Behavior.SUCCESS),  //1
+            Day(LocalDate.now(), Behavior.SUCCESS),  //2
+            Day(LocalDate.now(), Behavior.FAILURE),
+            Day(LocalDate.now(), Behavior.FAILURE),  //...
+            Day(LocalDate.now(), Behavior.NO_DATA),
+            Day(LocalDate.now(), Behavior.FAILURE),
+            Day(LocalDate.now(), Behavior.FAILURE),  //7
 
         )
         assertEquals(29, a.behaviorPercent(7, Behavior.SUCCESS))
