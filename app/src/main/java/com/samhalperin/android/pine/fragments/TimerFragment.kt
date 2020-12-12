@@ -36,8 +36,6 @@ class TimerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        model.currentTimer().observe(viewLifecycleOwner, Observer {timer-> onTimer(timer)})
         binding.setTimer.setOnClickListener(onSet)
         binding.reset.setOnClickListener(onReset)
     }
@@ -47,6 +45,10 @@ class TimerFragment : Fragment() {
         job?.cancel()
     }
 
+    override fun onResume() {
+        super.onResume()
+        model.currentTimer().observe(viewLifecycleOwner, Observer {timer-> onTimer(timer)})
+    }
 
     fun onTimer(timer: Timer?) {
         if (timer == null) {

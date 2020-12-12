@@ -26,5 +26,5 @@ fun Timer.timeLeft(now: LocalDateTime = LocalDateTime.now()):String {
 }
 
 fun Timer.isInPast():Boolean {
-   return dateTime < LocalDateTime.now()
+   return dateTime.isBefore( LocalDateTime.now())
 }
