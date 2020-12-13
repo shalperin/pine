@@ -1,4 +1,4 @@
-package com.samhalperin.android.pine.activities
+package com.samhalperin.android.pine.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +11,12 @@ import com.samhalperin.android.pine.entities.separateMonthsWithSpacers
 import kotlinx.android.synthetic.main.rvitem_viz_fasted.view.*
 import java.lang.RuntimeException
 
-class MainActivityVizAdapter : RecyclerView.Adapter<MainActivityVizAdapter.VH>() {
+class CalendarVizAdapter : RecyclerView.Adapter<CalendarVizAdapter.VH>() {
     private var data = listOf<Day>()
 
     inner class VH(val view: View): RecyclerView.ViewHolder(view) {
 
-        fun bind(day: Day, today:Boolean = false) {
+        fun bind(day: Day) {
 
             if (day.dayOfMonth() == 1) {
                 view.month_label.text = day.monthName(view.context)
@@ -29,14 +29,10 @@ class MainActivityVizAdapter : RecyclerView.Adapter<MainActivityVizAdapter.VH>()
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        if (position == data.size - 1) {
-            holder.bind(data.get(position), true)
-        } else {
-            holder.bind(data.get(position))
-        }
+        holder.bind(data.get(position))
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarVizAdapter.VH {
         val layoutToInflate =
         when (viewType) {
             0 -> R.layout.rvitem_viz_success

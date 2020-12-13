@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.samhalperin.android.pine.database.DayRepositoryRoomImpl
 import com.samhalperin.android.pine.entities.*
 import kotlinx.coroutines.launch
+import java.time.DayOfWeek
 
 class DayViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -43,7 +44,7 @@ class DayViewModel(application: Application) : AndroidViewModel(application) {
         Transformations.map(repo.getAll(), { sparseList ->
             sparseList
                 .endOnToday()
-                .startOnFirstOfMonth()
+                .startOnDotw(DayOfWeek.SUNDAY)
                 .makeDense()
         })
     })
@@ -78,9 +79,6 @@ class DayViewModel(application: Application) : AndroidViewModel(application) {
     fun today(): LiveData<Day> {
         return repo.today()
     }
-
-    
-
 
 }
 

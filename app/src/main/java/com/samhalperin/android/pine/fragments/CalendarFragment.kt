@@ -15,7 +15,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.samhalperin.android.pine.entities.Behavior
-import com.samhalperin.android.pine.activities.MainActivityVizAdapter
+import com.samhalperin.android.pine.adapters.CalendarVizAdapter
 import com.samhalperin.android.pine.R
 import com.samhalperin.android.pine.databinding.FragmentCalendarBinding
 import com.samhalperin.android.pine.viewmodels.DayViewModel
@@ -23,7 +23,7 @@ import com.samhalperin.android.pine.viewmodels.DayViewModel
 class CalendarFragment : Fragment() {
     private val model : DayViewModel by activityViewModels()
     private lateinit var layoutManager: GridLayoutManager
-    private val adapter = MainActivityVizAdapter()
+    private val adapter = CalendarVizAdapter()
     private lateinit var fabs : List<View>
     private lateinit var binding : FragmentCalendarBinding
 

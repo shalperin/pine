@@ -1,12 +1,10 @@
 package com.samhalperin.android.pine
 
-import com.samhalperin.android.pine.entities.Behavior
-import com.samhalperin.android.pine.entities.Day
-import com.samhalperin.android.pine.entities.addLastDayOfLastMonth
-import com.samhalperin.android.pine.entities.makeDense
+import com.samhalperin.android.pine.entities.*
 import org.junit.Test
 import org.junit.Assert.*
 import java.time.LocalDate
+import java.time.Month
 
 class DateMath {
 
@@ -108,6 +106,18 @@ class DateMath {
         var l = listOf(Day(c, Behavior.NO_DATA))
         l = l.addLastDayOfLastMonth().makeDense()
         assertEquals(29, l.size)
+    }
+
+    @Test
+    fun checkLastDayBug1() {
+        val c = LocalDate.of(2020, Month.DECEMBER, 13)
+        var l = listOf(Day(c, Behavior.FAILURE))
+        l = l.addFirstOfMonth()
+        assertEquals(LocalDate.of(2020, Month.DECEMBER, 1), l[0].date)
+        l = l.makeDense()
+        assertEquals(13, l.size)
+        assertEquals(LocalDate.of(2020, Month.DECEMBER, 1), l[0].date)
+        assertEquals(LocalDate.of(2020, Month.DECEMBER, 13), l[l.size -1].date)
     }
 
 }

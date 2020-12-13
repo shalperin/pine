@@ -123,14 +123,14 @@ fun List<Day>.startOnDotw(day: DayOfWeek): List<Day> {
 
     while (d.dayOfWeek != day) {
         d = d.minusDays(1L)
-        retval = listOf(Day(d, Behavior.NO_DATA)) + retval
+        retval = listOf(Day(d, Behavior.SPACER)) + retval
     }
 
     return retval
 }
 
 
-fun List<Day>.startOnFirstOfMonth(): List<Day> {
+fun List<Day>.addFirstOfMonth(): List<Day> {
     if (isEmpty()) {
         throw RuntimeException("Should have called endOnToday on this list first.")
     }

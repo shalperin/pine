@@ -41,7 +41,7 @@ class DayRepositoryRoomImpl(application: Application): IDayDataRepository {
     override  suspend fun populateDatabase() {
         withContext(Dispatchers.IO) {
             dayDao.deleteDatabase()
-            val days = generateDummyData(1000)
+            val days = generateDummyData(200)
             dayDao.insert(days)
         }
     }
