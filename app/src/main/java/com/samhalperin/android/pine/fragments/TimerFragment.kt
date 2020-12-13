@@ -18,7 +18,6 @@ import com.samhalperin.android.pine.viewmodels.TimerViewModel
 import kotlinx.coroutines.*
 import java.time.LocalDateTime
 import java.time.LocalTime
-import kotlin.concurrent.schedule
 
 
 class TimerFragment : Fragment() {
@@ -36,8 +35,8 @@ class TimerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.setTimer.setOnClickListener(onSet)
-        binding.reset.setOnClickListener(onReset)
+        binding.setTimer.setOnClickListener(onTimerSet)
+        binding.reset.setOnClickListener(onTimerReset)
     }
 
     override fun onStop() {
@@ -47,10 +46,11 @@ class TimerFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        model.currentTimer().observe(viewLifecycleOwner, Observer {timer-> onTimer(timer)})
+        val observer =
+        model.currentTimer().observe(viewLifecycleOwner, onTimer)
     }
 
-    fun onTimer(timer: Timer?) {
+    val onTimer = Observer<Timer> { timer ->
         if (timer == null) {
             job?.cancel()
             binding.clock.text = "00h 00m"
@@ -68,7 +68,7 @@ class TimerFragment : Fragment() {
         }
     }
 
-    val onSet = object: View.OnClickListener {
+    val onTimerSet = object: View.OnClickListener {
         override fun onClick(p0: View?) {
             val NOT_SET = -999
 
@@ -116,5 +116,5 @@ class TimerFragment : Fragment() {
         }
     }
 
-   val onReset = View.OnClickListener { model.clearTimer() }
+   val onTimerReset = View.OnClickListener { model.clearTimer() }
 }
