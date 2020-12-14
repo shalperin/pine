@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-     setSupportActionBar(findViewById(R.id.toolbar2))
+        setSupportActionBar(findViewById(R.id.toolbar2))
 
         intent.extras
             ?.getString("shortcut")
@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+
     }
 
     override fun onResume() {
@@ -64,9 +65,9 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
-            R.id.delete_database -> deleteDatabase()
-            R.id.change_previous -> changeYesterday()
-            R.id.populate_database -> populateDatabase()
+            R.id.delete_database -> dialogDeleteDatabase.show()
+            R.id.change_previous -> dialogChangeYesterday.show()
+            R.id.populate_database -> dialogPopulateDatabase.show()
             R.id.timer -> navigateToTimer()
         }
         return true
@@ -78,50 +79,54 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun populateDatabase() {
-        AlertDialog.Builder(this)
+    private val dialogPopulateDatabase: AlertDialog.Builder
+    get() {
+        return AlertDialog.Builder(MainActivity@ this)
             .setMessage("If you have real data, this will spam your database with mock values, do it?")
             .setPositiveButton(
                 "Yes, do it!",
                 { _, _ -> model.populate() })
             .setNegativeButton(
                 "No, don't do that!",
-                { _, _ -> /*no op*/})
-            .show()
+                { _, _ -> /*no op*/ })
     }
 
-    private fun deleteDatabase() {
-        AlertDialog.Builder(this)
+
+    private val dialogDeleteDatabase: AlertDialog.Builder
+    get() {
+        return AlertDialog.Builder(MainActivity@ this)
             .setMessage("Are you sure you want to delete the whole database?")
             .setPositiveButton(
                 "I'm sure",
                 { _, _ -> model.deleteDatabase() })
             .setNegativeButton(
                 "No, don't do that!",
-                { _, _ -> /*no-op*/})
-            .show()
+                { _, _ -> /*no-op*/ })
     }
 
 
-    private fun changeYesterday() {
-        val dialog = Dialog(this).apply {
+    val dialogChangeYesterday : Dialog
+    get() {
+        return Dialog(MainActivity@ this).apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setCancelable(true)
             setContentView(R.layout.dialog_yesterday)
+
+            success_fab.setOnClickListener {
+                model.logYesterday(Behavior.SUCCESS)
+                hide()
+            }
+
+            fail_fab.setOnClickListener {
+                model.logYesterday(Behavior.FAILURE)
+                hide()
+            }
+
+            fast_fab.setOnClickListener {
+                model.logYesterday(Behavior.FASTED)
+                hide()
+            }
         }
-        dialog.success_fab.setOnClickListener{
-            model.logYesterday(Behavior.SUCCESS)
-            dialog.hide()
-        }
-        dialog.fail_fab.setOnClickListener{
-            model.logYesterday(Behavior.FAILURE)
-            dialog.hide()
-        }
-        dialog.fast_fab.setOnClickListener{
-            model.logYesterday(Behavior.FASTED)
-            dialog.hide()
-        }
-        dialog.show()
     }
 
 }
