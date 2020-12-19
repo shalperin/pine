@@ -31,10 +31,6 @@ data class Day(
 
     }
 
-    fun add(days:Long) {
-        date = date.plusDays(days)
-    }
-
     companion object {
         fun today(): Day {
             return Day(LocalDate.now(), Behavior.NO_DATA)

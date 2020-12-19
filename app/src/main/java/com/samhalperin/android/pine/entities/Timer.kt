@@ -13,18 +13,20 @@ data class Timer(
    @ColumnInfo(name="datetime") var dateTime: LocalDateTime
 ) {
 
+   fun timeLeft(now: LocalDateTime = LocalDateTime.now()):String {
+      val millis = Duration.between(now, dateTime).toMillis()
+
+      return String.format("%02dh %02dm",
+         TimeUnit.MILLISECONDS.toHours(millis),
+         TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis))
+      )
+   }
+
+   fun isInPast():Boolean {
+      return dateTime.isBefore( LocalDateTime.now())
+   }
 
 }
 
-fun Timer.timeLeft(now: LocalDateTime = LocalDateTime.now()):String {
-   val millis = Duration.between(now, dateTime).toMillis()
 
-   return String.format("%02dh %02dm",
-      TimeUnit.MILLISECONDS.toHours(millis),
-      TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis))
-   )
-}
 
-fun Timer.isInPast():Boolean {
-   return dateTime.isBefore( LocalDateTime.now())
-}

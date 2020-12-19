@@ -19,19 +19,18 @@ class DayRepositoryRoomImpl(application: Application): IDayDataRepository {
     val timerDao = db.timerDao()
     private val all: LiveData<List<Day>> = dayDao.getAll()
 
-
-    private suspend fun insertOrUpdate(date: LocalDate, behavior: Behavior)  {
-        withContext(Dispatchers.IO) {
-            dayDao.insert(Day(date, behavior))
-        }
-    }
-
     override suspend fun markToday(behavior: Behavior) {
         insertOrUpdate(LocalDate.now(), behavior)
     }
 
     override suspend fun markYesterday(behavior: Behavior) {
         insertOrUpdate(LocalDate.now().minusDays(1), behavior)
+    }
+
+    private suspend fun insertOrUpdate(date: LocalDate, behavior: Behavior)  {
+        withContext(Dispatchers.IO) {
+            dayDao.insert(Day(date, behavior))
+        }
     }
 
     override fun getAll(): LiveData<List<Day>> {
@@ -54,19 +53,22 @@ class DayRepositoryRoomImpl(application: Application): IDayDataRepository {
 
     override fun today() = dayDao.today()
 
-
-}
-
-fun generateDummyData(n: Long): List<Day> {
-    val behaviors = listOf(Behavior.FAILURE, Behavior.SUCCESS, Behavior.FASTED)
-    val skipDays = listOf( 1L, 1L, 1L, 2L, 2L, 2L, 3L, 5L)
-    val days = mutableListOf<Day>()
-    var i = 0L
-    while (i < n) {
-        i += skipDays.shuffled().first()
-        val d = LocalDate.now().minusDays(i)
-        val behavior = behaviors.shuffled().first()
-        days.add(Day(d, behavior))
+    companion object {
+        private fun generateDummyData(n: Long): List<Day> {
+            val behaviors = listOf(Behavior.FAILURE, Behavior.SUCCESS, Behavior.FASTED)
+            val skipDays = listOf( 1L, 1L, 1L, 2L, 2L, 2L, 3L, 5L)
+            val days = mutableListOf<Day>()
+            var i = 0L
+            while (i < n) {
+                i += skipDays.shuffled().first()
+                val d = LocalDate.now().minusDays(i)
+                val behavior = behaviors.shuffled().first()
+                days.add(Day(d, behavior))
+            }
+            return days
+        }
     }
-    return days
+
 }
+
+
